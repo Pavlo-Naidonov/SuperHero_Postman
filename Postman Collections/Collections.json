@@ -1,0 +1,286 @@
+{
+	"info": {
+		"_postman_id": "769eb0e7-871b-4f89-aae7-1159b9e43604",
+		"name": "superHeroes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get super heroes before create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "19b6deb8-a834-4bab-8247-7cb939c034ac",
+						"exec": [
+							"var obj = JSON.parse(responseBody);\r",
+							"var count = obj.length;\r",
+							"console.log(\"Total number super heroes is \",count);\r",
+							"\r",
+							"pm.environment.set(\"numberOfHeroes\",count);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f59c2890-2a43-4a43-b250-7d85a28f8d92",
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "039beb5e-bee1-4eba-9210-f83c022cab8d",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"birthDate\": \"2019-02-21\",\r\n  \"city\": \"New York\",\r\n  \"fullName\": \"Doctor Strange\",\r\n  \"gender\": \"F\",\r\n  \"mainSkill\": \"Magic\",\r\n  \"phone\": \"+74998884433\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseURI}}/superheroes"
+			},
+			"response": []
+		},
+		{
+			"name": "Create super hero",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "790d6588-42c1-42b5-9808-7335d1db164b",
+						"exec": [
+							"pm.environment.set(\"idHero\",JSON.parse(responseBody).id);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a31fb43e-dde8-4030-912d-706251e3234b",
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "9eebcf06-8337-4990-89ec-f98627bd9e6a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"birthDate\": \"2019-02-21\",\r\n  \"city\": \"New York\",\r\n  \"fullName\": \"Doctor Strange\",\r\n  \"gender\": \"F\",\r\n  \"id\": 122,\r\n  \"mainSkill\": \"Magic\",\r\n  \"phone\": \"+74998884433\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseURI}}/superheroes"
+			},
+			"response": []
+		},
+		{
+			"name": "Get super hero by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "18aef61e-bddf-41cd-a264-5c384a943215",
+						"exec": [
+							"var id = pm.environment.get(\"idHero\");\r",
+							"\r",
+							"pm.test(\"response body contains id: \" + id, function () {\r",
+							"    pm.expect(JSON.parse(responseBody).id).eql(id);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "00ca0730-a8e5-4639-b796-4c5fd2094448",
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "ea5aa27b-60d2-4bf4-952b-74fb850bb845",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BaseURI}}/superheroes/{{idHero}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Get super heroes after create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1f3b5f10-4eef-4825-b22c-0c3fc042db24",
+						"exec": [
+							"var obj = JSON.parse(responseBody);\r",
+							"var numberNew = obj.length;\r",
+							"console.log(\"New numbers of heroes -> \",numberNew);\r",
+							"\r",
+							"var numberOld = pm.environment.get(\"numberOfHeroes\");\r",
+							"console.log(\"Old numbers of heroes -> \", numberOld);\r",
+							"\r",
+							"pm.test(\"New number of heroes = \" + numberNew), function (){\r",
+							"    pm.expect(numberOld+1).to.eql(numberNew);\r",
+							"};"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fa9d0066-0b0a-40c7-a823-4f232c12f1c8",
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "eef7c7b9-d920-4c2a-a878-b81a1dbf5655",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BaseURI}}/superheroes"
+			},
+			"response": []
+		},
+		{
+			"name": "Modify hero`s sity",
+			"id": "4596f8ca-a7f2-4d48-91f4-b62559d74de9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"birthDate\": \"2019-02-21\",\r\n  \"city\": \"New York\",\r\n  \"fullName\": \"Doctor Strange\",\r\n  \"gender\": \"F\",\r\n  \"mainSkill\": \"Magic\",\r\n  \"phone\": \"+74998884433\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseURI}}/superheroes/{{idHero}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Get super hero by id after modify",
+			"id": "c64b63f7-a10b-46da-b425-10cee86877ef",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseURI}}/superheroes/{{idHero}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete hero by id",
+			"id": "7e0308ee-d29e-4d1d-a418-eba782c229c0",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseURI}}/superheroes/{{idHero}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "29ddda3a-96ef-4fe5-980b-45237adf4cba",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6b342b97-1c15-49c1-a7d3-b17b059ade0a",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"    pm.response.to.have.status(200);\r",
+					"});\r",
+					"\r",
+					"pm.test(\"Response time is less than 500ms\", function () {\r",
+					"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+					"});\r",
+					"\r",
+					"pm.test(\"Status code name has string: OK\", function () {\r",
+					"    pm.response.to.have.status(\"OK\");\r",
+					"});"
+				]
+			}
+		}
+	]
+}
